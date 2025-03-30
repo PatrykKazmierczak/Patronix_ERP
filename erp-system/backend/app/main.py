@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.api import auth
 from app.core.database import engine, Base
+import os
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -13,10 +14,13 @@ app = FastAPI(
     version="1.0.0"
 )
 
+# Get allowed origins from environment variable or use default
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
