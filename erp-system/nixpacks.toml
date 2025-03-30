@@ -1,10 +1,10 @@
 [phases.setup]
-nixPkgs = ['python39', 'nodejs', 'postgresql']
+nixPkgs = ['python39', 'nodejs', 'postgresql', 'curl']
 
 [phases.install]
 cmds = [
-  'cd backend && pip install -r requirements.txt',
-  'cd ../frontend && npm install'
+  'cd backend && pip install --no-cache-dir -r requirements.txt',
+  'cd ../frontend && npm install --legacy-peer-deps'
 ]
 
 [phases.build]
