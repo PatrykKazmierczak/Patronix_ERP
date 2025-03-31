@@ -1,6 +1,7 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../stores/authStore';
+import { HiChevronDown, HiChevronRight } from 'react-icons/hi';
 
 // Import ikon z react-icons
 import { 
@@ -17,18 +18,36 @@ import {
   HiOutlinePuzzle,
   HiOutlineTerminal,
   HiOutlineMailOpen,
-  HiOutlineCog as HiOutlineSettings
+  HiOutlineCog as HiOutlineSettings,
+  HiOutlineClipboard
 } from 'react-icons/hi';
+
+interface SubNavItem {
+  name: string;
+  path: string;
+}
 
 interface NavItem {
   name: string;
-  path: string;
+  path?: string;
   icon: ReactNode;
+  subItems?: SubNavItem[];
 }
 
 const navigation: NavItem[] = [
   { name: 'Master Data', path: '/master-data', icon: <HiOutlineDatabase className="w-6 h-6" /> },
-  { name: 'Sales', path: '/sales', icon: <HiOutlineShoppingCart className="w-6 h-6" /> },
+  { 
+    name: 'Sales', 
+    icon: <HiOutlineShoppingCart className="w-6 h-6" />,
+    subItems: [
+      { name: 'Customer 360', path: '/sales/customer-360' },
+      { name: 'Sales Orders', path: '/sales/orders' },
+      { name: 'Order Intake Workbench', path: '/sales/order-intake' },
+      { name: 'Order Fulfillment Workbench', path: '/sales/order-fulfillment' },
+      { name: 'Inventory / Commitments', path: '/sales/inventory' },
+      { name: 'Parameters', path: '/sales/parameters' }
+    ]
+  },
   { name: 'Planning', path: '/planning', icon: <HiOutlineClipboardList className="w-6 h-6" /> },
   { name: 'Manufacturing', path: '/manufacturing', icon: <HiOutlineCog className="w-6 h-6" /> },
   { name: 'Procurement', path: '/procurement', icon: <HiOutlineCube className="w-6 h-6" /> },
@@ -50,32 +69,86 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const logout = useAuthStore((state) => state.logout);
+  const [expandedItems, setExpandedItems] = useState<string[]>(['Sales']); // Pre-expand Sales menu
+
+  const toggleExpand = (name: string) => {
+    setExpandedItems(prev => 
+      prev.includes(name) 
+        ? prev.filter(item => item !== name)
+        : [...prev, name]
+    );
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-blue-600 text-white">
+      <div className="w-64 bg-blue-600 text-white overflow-y-auto">
         <div className="h-16 flex items-center px-6">
           <h1 className="text-xl font-semibold">ERP System</h1>
         </div>
         <nav className="mt-5">
           <div className="px-3 space-y-1">
             {navigation.map((item) => {
-              const isActive = location.pathname === item.path;
+              const isActive = item.path 
+                ? location.pathname === item.path
+                : item.subItems?.some(subItem => location.pathname === subItem.path);
+              const isExpanded = expandedItems.includes(item.name);
+
               return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`
-                    flex items-center px-3 py-2 text-sm font-medium rounded-md
-                    ${isActive 
-                      ? 'bg-blue-700 text-white' 
-                      : 'text-blue-100 hover:bg-blue-700'}
-                  `}
-                >
-                  <span className="mr-3">{item.icon}</span>
-                  {item.name}
-                </Link>
+                <div key={item.name}>
+                  {item.subItems ? (
+                    // Menu item with submenu
+                    <button
+                      onClick={() => toggleExpand(item.name)}
+                      className={`
+                        w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md
+                        ${isActive ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700'}
+                      `}
+                    >
+                      <div className="flex items-center">
+                        <span className="mr-3">{item.icon}</span>
+                        {item.name}
+                      </div>
+                      {isExpanded ? (
+                        <HiChevronDown className="w-5 h-5" />
+                      ) : (
+                        <HiChevronRight className="w-5 h-5" />
+                      )}
+                    </button>
+                  ) : (
+                    // Regular menu item
+                    <Link
+                      to={item.path!}
+                      className={`
+                        flex items-center px-3 py-2 text-sm font-medium rounded-md
+                        ${isActive ? 'bg-blue-700 text-white' : 'text-blue-100 hover:bg-blue-700'}
+                      `}
+                    >
+                      <span className="mr-3">{item.icon}</span>
+                      {item.name}
+                    </Link>
+                  )}
+
+                  {/* Submenu items */}
+                  {item.subItems && isExpanded && (
+                    <div className="ml-8 mt-1 space-y-1">
+                      {item.subItems.map((subItem) => (
+                        <Link
+                          key={subItem.path}
+                          to={subItem.path}
+                          className={`
+                            block px-3 py-2 text-sm font-medium rounded-md
+                            ${location.pathname === subItem.path
+                              ? 'bg-blue-700 text-white'
+                              : 'text-blue-100 hover:bg-blue-700'}
+                          `}
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
