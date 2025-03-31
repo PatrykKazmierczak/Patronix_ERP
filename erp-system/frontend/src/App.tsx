@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
-import SalesOrders from './pages/SalesOrders'
 import { useAuthStore } from './stores/authStore'
 import Layout from './components/Layout'
 
@@ -52,55 +51,6 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        {/* Sales Module Routes */}
-        <Route
-          path="/sales/customer-360"
-          element={
-            <ProtectedRoute>
-              <ModulePage title="Customer 360" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sales/orders"
-          element={
-            <ProtectedRoute>
-              <SalesOrders />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sales/order-intake"
-          element={
-            <ProtectedRoute>
-              <ModulePage title="Order Intake Workbench" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sales/order-fulfillment"
-          element={
-            <ProtectedRoute>
-              <ModulePage title="Order Fulfillment Workbench" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sales/inventory"
-          element={
-            <ProtectedRoute>
-              <ModulePage title="Inventory / Commitments" />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sales/parameters"
-          element={
-            <ProtectedRoute>
-              <ModulePage title="Sales Parameters" />
             </ProtectedRoute>
           }
         />
