@@ -48,7 +48,36 @@ const mockOrders: Order[] = [
     miscellaneous: false,
     noBackorders: true
   },
-  // Add more mock data here...
+  {
+    id: '2',
+    orderNumber: 'S1000005',
+    salesOffice: 'Branch Office',
+    internalSalesRep: 'Jane Smith',
+    salesBusinessPartner: 'XYZ Ltd',
+    orderLines: 3,
+    backorderLines: 1,
+    salesOrders: 1,
+    releaseToWarehouse: false,
+    releaseToAcknowledgement: true,
+    releaseManualActivities: true,
+    miscellaneous: true,
+    noBackorders: false
+  },
+  {
+    id: '3',
+    orderNumber: 'S1000006',
+    salesOffice: 'Main Office',
+    internalSalesRep: 'Mike Johnson',
+    salesBusinessPartner: 'DEF Industries',
+    orderLines: 8,
+    backorderLines: 2,
+    salesOrders: 3,
+    releaseToWarehouse: true,
+    releaseToAcknowledgement: false,
+    releaseManualActivities: true,
+    miscellaneous: false,
+    noBackorders: false
+  }
 ];
 
 type SortField = keyof Order;
