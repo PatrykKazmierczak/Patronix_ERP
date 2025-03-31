@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import { useAuthStore } from './stores/authStore'
 import Layout from './components/Layout'
+import BillOfMaterials from './pages/BillOfMaterials'
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -51,6 +52,96 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        {/* Engineering Module Routes */}
+        <Route
+          path="/engineering/product-design"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Product Design" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/engineering/bom"
+          element={
+            <ProtectedRoute>
+              <BillOfMaterials />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/engineering/change-management"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Change Management" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/engineering/documentation"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Technical Documentation" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/engineering/research"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Research & Development" />
+            </ProtectedRoute>
+          }
+        />
+        {/* Sales Module Routes */}
+        <Route
+          path="/sales/customer-360"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Customer 360" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales/orders"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Sales Orders" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales/order-intake"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Order Intake Workbench" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales/order-fulfillment"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Order Fulfillment Workbench" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales/inventory"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Inventory / Commitments" />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/sales/parameters"
+          element={
+            <ProtectedRoute>
+              <ModulePage title="Sales Parameters" />
             </ProtectedRoute>
           }
         />

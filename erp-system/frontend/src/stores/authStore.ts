@@ -20,10 +20,38 @@ interface AuthState {
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
+// Funkcja pomocnicza do sprawdzania ważności tokena
+const isTokenValid = (token: string | null): boolean => {
+  if (!token) return false;
+  try {
+    // Sprawdź czy token jest w formacie JWT
+    const parts = token.split('.');
+    if (parts.length !== 3) return false;
+
+    // Dekoduj payload
+    const payload = JSON.parse(atob(parts[1]));
+    
+    // Sprawdź czy token nie wygasł
+    const exp = payload.exp * 1000; // konwersja na milisekundy
+    return Date.now() < exp;
+  } catch {
+    return false;
+  }
+}
+
+// Pobierz token z localStorage
+let storedToken = localStorage.getItem('token');
+
+// Jeśli token jest nieważny, wyczyść localStorage
+if (!isTokenValid(storedToken)) {
+  localStorage.removeItem('token');
+  storedToken = null;
+}
+
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
-  token: localStorage.getItem('token'),
-  isAuthenticated: !!localStorage.getItem('token'),
+  token: storedToken,
+  isAuthenticated: !!storedToken,
 
   login: async (email: string, password: string) => {
     try {

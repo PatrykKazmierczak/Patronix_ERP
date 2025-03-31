@@ -19,7 +19,9 @@ import {
   HiOutlineTerminal,
   HiOutlineMailOpen,
   HiOutlineCog as HiOutlineSettings,
-  HiOutlineClipboard
+  HiOutlineClipboard,
+  HiOutlineBeaker,
+  HiOutlineLightBulb
 } from 'react-icons/hi';
 
 interface SubNavItem {
@@ -36,6 +38,29 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   { name: 'Master Data', path: '/master-data', icon: <HiOutlineDatabase className="w-6 h-6" /> },
+  { 
+    name: 'Engineering', 
+    icon: <HiOutlineBeaker className="w-6 h-6" />,
+    subItems: [
+      { name: 'Product Design', path: '/engineering/product-design' },
+      { name: 'Bill of Materials', path: '/engineering/bom' },
+      { name: 'Change Management', path: '/engineering/change-management' },
+      { name: 'Technical Documentation', path: '/engineering/documentation' },
+      { name: 'Research & Development', path: '/engineering/research' }
+    ]
+  },
+  { 
+    name: 'Sales', 
+    icon: <HiOutlineShoppingCart className="w-6 h-6" />,
+    subItems: [
+      { name: 'Customer 360', path: '/sales/customer-360' },
+      { name: 'Sales Orders', path: '/sales/orders' },
+      { name: 'Order Intake Workbench', path: '/sales/order-intake' },
+      { name: 'Order Fulfillment Workbench', path: '/sales/order-fulfillment' },
+      { name: 'Inventory / Commitments', path: '/sales/inventory' },
+      { name: 'Parameters', path: '/sales/parameters' }
+    ]
+  },
   { name: 'Planning', path: '/planning', icon: <HiOutlineClipboardList className="w-6 h-6" /> },
   { name: 'Manufacturing', path: '/manufacturing', icon: <HiOutlineCog className="w-6 h-6" /> },
   { name: 'Procurement', path: '/procurement', icon: <HiOutlineCube className="w-6 h-6" /> },
